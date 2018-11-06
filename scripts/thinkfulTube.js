@@ -18,7 +18,9 @@ const thinkfulTube = (function() {
         link: `https://www.youtube.com/watch?v=${item.id.videoId || item.id.channelId}`,
         id: item.id.videoId || item.id.channelId,
         title: item.snippet.title,
-        thumbnail: item.snippet.thumbnails.default.url
+        thumbnail: item.snippet.thumbnails.default.url,
+        channelId: item.snippet.channelId,
+        channelTitle: item.snippet.channelTitle
       };
     });
     store.addVideosToStore(itemsArray);
@@ -28,7 +30,8 @@ const thinkfulTube = (function() {
   const generateVideoItemHtml = function(video) {
     return `<li data-video-id="${video.id}">
           <img src="${video.thumbnail}" />
-          <a target="blank" href="${video.link}"><h3>${video.title}</h3></a>
+          <a target="blank" href="${video.link}"><h3>Video Title: ${video.title}</h3></a>
+          <a target="blank" href="https://www.youtube.com/channel/${video.channelId}">Channel Title: ${video.channelTitle}</a>
           </li>`;
   };
 
