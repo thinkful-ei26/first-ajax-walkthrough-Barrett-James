@@ -1,6 +1,6 @@
 'use strict';
 /*eslint-env jquery*/
-const API_KEY = 'AIzaSyDeWkuNfZ4zReN5XX893sfpgIABwbTrsNo';
+//const API_KEY = '';
 
 /*
   We want our store to hold an array of "decorated" video objects - i.e. objects that
