@@ -1,6 +1,6 @@
 'use strict';
 /*eslint-env jquery*/
-const API_KEY = 'AIzaSyDeWkuNfZ4zReN5XX893sfpgIABwbTrsNo';
+//const API_KEY = '';
 
 /*
   We want our store to hold an array of "decorated" video objects - i.e. objects that
@@ -71,7 +71,11 @@ const fetchVideos = function(searchTerm, callback) {
 const decorateResponse = function(response) {
   const itemsArray = response.items.map(function(item) {
     return {
+<<<<<<< HEAD
       id: item.snippet.channelId,
+=======
+      id: item.snippet.videoId,
+>>>>>>> a2cb7d434d428860a49f9140373ffe60f63cca8d
       title: item.snippet.title,
       thumbnail: item.snippet.thumbnails.default.url
     };
