@@ -1,6 +1,6 @@
 'use strict';
 /*eslint-env jquery*/
-const API_KEY = "AIzaSyDeWkuNfZ4zReN5XX893sfpgIABwbTrsNo";
+const API_KEY = 'AIzaSyDeWkuNfZ4zReN5XX893sfpgIABwbTrsNo';
 
 /*
   We want our store to hold an array of "decorated" video objects - i.e. objects that
@@ -44,14 +44,13 @@ const fetchVideos = function(searchTerm, callback) {
    
   // add the searchterm into parameters,
   const myDataObject = {
-        part : 'snippet',
-        key : API_KEY,
-        q: searchTerm
+    part : 'snippet',
+    key : API_KEY,
+    q: searchTerm
   };
-  $.getJSON(BASE_URL, myDataObject, function(response){
-    console.log(response);
-  });
+  $.getJSON(BASE_URL, myDataObject, callback);
 };
+
 
 
 /**
@@ -70,7 +69,14 @@ const fetchVideos = function(searchTerm, callback) {
 // TEST IT! Grab an example API response and send it into the function - make sure
 // you get back the object you want.
 const decorateResponse = function(response) {
-
+  const itemsArray = response.items.map(function(item) {
+    return {
+      id: item.snippet.channelId,
+      title: item.snippet.channelTitle,
+      thumbnail: item.snippet.thumbnails.default
+    };
+  });
+  addVideosToStore(itemsArray);
 };
 
 /**
@@ -83,7 +89,9 @@ const decorateResponse = function(response) {
 // 1. Using the decorated object, return an HTML string containing all the expected
 // TEST IT!
 const generateVideoItemHtml = function(video) {
-
+  return `<div>
+    <li>${video}</li>
+  </div>`;
 };
 
 /**
@@ -95,7 +103,8 @@ const generateVideoItemHtml = function(video) {
 // 1. Set the received array as the value held in store.videos
 // TEST IT!
 const addVideosToStore = function(videos) {
-
+  store.videos.push(videos);
+  render();
 };
 
 
@@ -108,7 +117,10 @@ const addVideosToStore = function(videos) {
 // 2. Add this array of DOM elements to the appropriate DOM element
 // TEST IT!
 const render = function() {
-
+  let html = [];
+  html = store.videos.map(video => generateVideoItemHtml(video));
+  html.join('');
+  $('.results').html(html);
 };
 
 /**
@@ -129,11 +141,11 @@ const render = function() {
 // TEST IT!
 const handleFormSubmit = function() {
   $('form').submit(function(event){
-      event.preventDefault();
-      //console.log("Form is submitted");works
-      const userInput = $('#search-term').val();
-      $('#search-term').val('');
-      fetchVideos(userInput /*callback func goes here*/);
+    event.preventDefault();
+    //console.log("Form is submitted");works
+    const userInput = $('#search-term').val();
+    $('#search-term').val('');
+    fetchVideos(userInput, decorateResponse);
   });
 };
 
