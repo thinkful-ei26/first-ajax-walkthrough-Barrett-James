@@ -26,9 +26,8 @@ const thinkfulTube = (function() {
   };
 //<img src="${video.thumbnail}" />
   const generateVideoItemHtml = function(video) {
-    return `
-          <li class="player" data-video-id="${video.id}">
-          <iframe id="YTplayer" width="640" height="360" videoId=${video.id}></iframe>
+    return `<li data-video-id="${video.id}">
+          <img src="${video.thumbnail}" />
           <a target="blank" href="${video.link}"><h3>${video.title}</h3></a>
           </li>`;
   };
