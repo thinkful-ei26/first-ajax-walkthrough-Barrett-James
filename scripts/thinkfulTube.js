@@ -24,7 +24,7 @@ const thinkfulTube = (function() {
     store.addVideosToStore(itemsArray);
     thinkfulTube.render();
   };
-//<img src="${video.thumbnail}" />
+  //<img src="${video.thumbnail}" />
   const generateVideoItemHtml = function(video) {
     return `
           <li class="player" data-video-id="${video.id}">
@@ -34,9 +34,14 @@ const thinkfulTube = (function() {
   };
 
   const render = function() {
-    const OurHtml = store.Videos.map(video => generateVideoItemHtml(video));
+    //onYouTubeIframeAPIReady(); 
+    const OurHtml = store.Videos.map(video => {
+      onYouTubeIframeAPIReady(video);
+      generateVideoItemHtml(video);
+    });
     OurHtml.join('');
     $('.results').html(OurHtml);
+    
   };
   const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 
