@@ -1,21 +1,36 @@
 'use strict';
 /*eslint-env jquery*/
 
-const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
+// function onYouTubeIframeAPIReady() {
+  
+// const player = new YT.Player('player', {
+    
+//     height: '390',
+//     width: '640',
+//     videoId: store.Videos.id.videoId,
+//     events: {
+//       'onReady': onPlayerReady,
+//       'onStateChange': onPlayerStateChange
+//     }
+  
+// });
+// }
 
-const handleFormSubmit = function() {
-  $('form').submit(function(event){
-    event.preventDefault();
-    //console.log("Form is submitted");works
-    const userInput = $('#search-term').val();
-    $('#search-term').val('');
-    thinkfulTube.fetchVideos(userInput, thinkfulTube.decorateResponse);
-  });
-};
+function onPlayerStateChange(){
+  console.log("the player state has changed!");//moral victory if we see this.
+}
+function onPlayerReady(){
+  console.log("the player is ready to play, do stuff");
+  //stuff
+}
 
 // When DOM is ready:
-$(function () {
+$(document).ready(function () {
   // TASK:
   // 1. Run `handleFormSubmit` to bind the event listener to the DOM
-  handleFormSubmit();
-});
+  thinkfulTube.handleFormSubmit();
+  thinkfulTube.render();
+  onYouTubeIframeAPIReady();
+  
+}
+);
