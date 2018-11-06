@@ -72,8 +72,8 @@ const decorateResponse = function(response) {
   const itemsArray = response.items.map(function(item) {
     return {
       id: item.snippet.channelId,
-      title: item.snippet.channelTitle,
-      thumbnail: item.snippet.thumbnails.default
+      title: item.snippet.title,
+      thumbnail: item.snippet.thumbnails.default.url
     };
   });
   addVideosToStore(itemsArray);
@@ -89,9 +89,11 @@ const decorateResponse = function(response) {
 // 1. Using the decorated object, return an HTML string containing all the expected
 // TEST IT!
 const generateVideoItemHtml = function(video) {
-  return `<div>
-    <li>${video}</li>
-  </div>`;
+  return `
+    <li data-video-id="${video.id}">
+    <img src="${video.thumbnail}" />
+    <h3>${video.title}</h3>
+    </li>`;
 };
 
 /**
@@ -103,7 +105,7 @@ const generateVideoItemHtml = function(video) {
 // 1. Set the received array as the value held in store.videos
 // TEST IT!
 const addVideosToStore = function(videos) {
-  store.videos.push(videos);
+  store.videos = videos;
   render();
 };
 
@@ -117,8 +119,7 @@ const addVideosToStore = function(videos) {
 // 2. Add this array of DOM elements to the appropriate DOM element
 // TEST IT!
 const render = function() {
-  let html = [];
-  html = store.videos.map(video => generateVideoItemHtml(video));
+  const html = store.videos.map(video => generateVideoItemHtml(video));
   html.join('');
   $('.results').html(html);
 };
