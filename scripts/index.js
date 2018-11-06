@@ -1,4 +1,6 @@
-const API_KEY = 'YOUR_KEY_HERE';
+'use strict';
+/*eslint-env jquery*/
+const API_KEY = "AIzaSyDeWkuNfZ4zReN5XX893sfpgIABwbTrsNo";
 
 /*
   We want our store to hold an array of "decorated" video objects - i.e. objects that
@@ -19,7 +21,7 @@ const store = {
 
 // TASK: Add the Youtube Search API Base URL here:
 // Documentation is here: https://developers.google.com/youtube/v3/docs/search/list#usage
-const BASE_URL = '';
+const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 
 /**
  * @function fetchVideos
@@ -36,8 +38,21 @@ const BASE_URL = '';
 //
 // TEST IT! Execute this function and console log the results inside the callback.
 const fetchVideos = function(searchTerm, callback) {
-
+  // build out the full url.
+  // 
+  // let fullUrl = BASE_URL;
+   
+  // add the searchterm into parameters,
+  const myDataObject = {
+        part : 'snippet',
+        key : API_KEY,
+        q: searchTerm
+  };
+  $.getJSON(BASE_URL, myDataObject, function(response){
+    console.log(response);
+  });
 };
+
 
 /**
  * @function decorateResponse
@@ -113,11 +128,18 @@ const render = function() {
 //   g) Inside the callback, run the `render` function 
 // TEST IT!
 const handleFormSubmit = function() {
-
+  $('form').submit(function(event){
+      event.preventDefault();
+      //console.log("Form is submitted");works
+      const userInput = $('#search-term').val();
+      $('#search-term').val('');
+      fetchVideos(userInput /*callback func goes here*/);
+  });
 };
 
 // When DOM is ready:
 $(function () {
   // TASK:
   // 1. Run `handleFormSubmit` to bind the event listener to the DOM
+  handleFormSubmit();
 });
