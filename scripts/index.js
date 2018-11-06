@@ -71,9 +71,9 @@ const fetchVideos = function(searchTerm, callback) {
 const decorateResponse = function(response) {
   const itemsArray = response.items.map(function(item) {
     return {
-      id: item.snippet.channelId,
-      title: item.snippet.channelTitle,
-      thumbnail: item.snippet.thumbnails.default
+      id: item.snippet.videoId,
+      title: item.snippet.title,
+      thumbnail: item.snippet.thumbnails.default.url
     };
   });
   addVideosToStore(itemsArray);
@@ -103,7 +103,7 @@ const generateVideoItemHtml = function(video) {
 // 1. Set the received array as the value held in store.videos
 // TEST IT!
 const addVideosToStore = function(videos) {
-  store.videos.push(videos);
+  store.videos = videos;
   render();
 };
 
