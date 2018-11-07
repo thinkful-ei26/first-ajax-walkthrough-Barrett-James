@@ -6,14 +6,38 @@ const thinkfulTube = (function() {
     const myDataObject = {
       part : 'snippet',
       key : API_KEY,
-      q: searchTerm
+      q: searchTerm,
+      maxResults: 6
+    };
+    $.getJSON(BASE_URL, myDataObject, callback);
+  };
+
+  const fetchNextPage = function(nextPageToken, callback){
+    const myDataObject = {
+      part : 'snippet',
+      key : API_KEY,
+      pageToken: nextPageToken,
+      maxResults: 6
     };
     $.getJSON(BASE_URL, myDataObject, callback);
   };
 
   const decorateResponse = function(response) {
+    console.log(response);
+    store.nextPageToken = response.nextPageToken || '';
+    if (store.nextPageToken !== ''){
+      $('.Next').removeClass('hidden');
+    } else {
+      $('.Next').addClass('hidden');
+    }
+    store.prevPageToken = response.prevPageToken || '';
+    if (store.prevPageToken !== ''){
+      $('.Previous').removeClass('hidden');
+    } else {
+      $('.Previous').addClass('hidden');
+    }
     const itemsArray = response.items.map(function(item) {
-      console.log(item);
+      
       return {
         link: `https://www.youtube.com/watch?v=${item.id.videoId || item.id.channelId}`,
         id: item.id.videoId || item.id.channelId,
@@ -26,7 +50,7 @@ const thinkfulTube = (function() {
     store.addVideosToStore(itemsArray);
     thinkfulTube.render();
   };
-//<img src="${video.thumbnail}" />
+
   const generateVideoItemHtml = function(video) {
     return `<li class="col-4" data-video-id="${video.id}">
           <img src="${video.thumbnail}" />
@@ -43,22 +67,33 @@ const thinkfulTube = (function() {
   const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 
   const handleFormSubmit = function() {
-    $('form').submit(function(event){
+    $('.searchForm').submit(function(event){
       event.preventDefault();
-      //console.log("Form is submitted");works
       const userInput = $('#search-term').val();
       $('#search-term').val('');
+
       fetchVideos(userInput, thinkfulTube.decorateResponse);
     });
   };
-      
+  const handleNextPrev = function(){
+    $('.NextPrev').on('click', '.Next', function(event){
+      //here the next button has been clicked.
+      fetchNextPage(store.nextPageToken, thinkfulTube.decorateResponse);
+    });
+    $('.NextPrev').on('click', '.Previous', function(event){
+      //here the previous button has been clicked.
+      fetchNextPage(store.prevPageToken, thinkfulTube.decorateResponse);
+    });
+
+};
   return {
     fetchVideos,
     decorateResponse,
     generateVideoItemHtml,
     render,
     BASE_URL,
-    handleFormSubmit
+    handleFormSubmit,
+    handleNextPrev,
+    fetchNextPage
   };
-
 }());
