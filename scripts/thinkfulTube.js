@@ -3,6 +3,7 @@
 const thinkfulTube = (function() {
 
   const fetchVideos = function(searchTerm, callback) {
+    store.searched = searchTerm;
     const myDataObject = {
       part : 'snippet',
       key : API_KEY,
@@ -12,11 +13,12 @@ const thinkfulTube = (function() {
     $.getJSON(BASE_URL, myDataObject, callback);
   };
 
-  const fetchNextPage = function(nextPageToken, callback){
+  const fetchNextPage = function(thePageToken, callback){
     const myDataObject = {
       part : 'snippet',
       key : API_KEY,
-      pageToken: nextPageToken,
+      q: store.searched,
+      pageToken: thePageToken,
       maxResults: 6
     };
     $.getJSON(BASE_URL, myDataObject, callback);

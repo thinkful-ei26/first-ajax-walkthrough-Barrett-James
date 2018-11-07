@@ -6,10 +6,12 @@ const store = (function() {
   };
   let nextPageToken = '';
   let prevPageToken = '';
+  let searched = '';
   return {
     Videos,
     addVideosToStore,
     nextPageToken,
-    prevPageToken
+    prevPageToken,
+    searched
   };
 }());
