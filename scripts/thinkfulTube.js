@@ -37,7 +37,6 @@ const thinkfulTube = (function() {
       $('.Previous').addClass('hidden');
     }
     const itemsArray = response.items.map(function(item) {
-      
       return {
         link: `https://www.youtube.com/watch?v=${item.id.videoId || item.id.channelId}`,
         id: item.id.videoId || item.id.channelId,
@@ -50,19 +49,22 @@ const thinkfulTube = (function() {
     store.addVideosToStore(itemsArray);
     thinkfulTube.render();
   };
-
+//<img src="${video.thumbnail}" /> this was in line 56..
   const generateVideoItemHtml = function(video) {
     return `<li class="col-4" data-video-id="${video.id}">
-          <img src="${video.thumbnail}" />
+          <div class="player"></div>
+          
           <a target="blank" href="${video.link}"><h3>Video Title: ${video.title}</h3></a>
           <a target="blank" href="https://www.youtube.com/channel/${video.channelId}">Channel Title: ${video.channelTitle}</a>
-          </li>`;
+          </li>
+          `;
   };
 
   const render = function() {
     const OurHtml = store.Videos.map(video => generateVideoItemHtml(video));
     OurHtml.join('');
     $('.results').html(OurHtml);
+    onYouTubeIframeAPIReady();
   };
   const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 
