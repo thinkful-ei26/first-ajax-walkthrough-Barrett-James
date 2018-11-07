@@ -28,7 +28,7 @@ const thinkfulTube = (function() {
   };
 //<img src="${video.thumbnail}" />
   const generateVideoItemHtml = function(video) {
-    return `<li data-video-id="${video.id}">
+    return `<li class="col-4" data-video-id="${video.id}">
           <img src="${video.thumbnail}" />
           <a target="blank" href="${video.link}"><h3>Video Title: ${video.title}</h3></a>
           <a target="blank" href="https://www.youtube.com/channel/${video.channelId}">Channel Title: ${video.channelTitle}</a>
