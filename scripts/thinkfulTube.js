@@ -25,7 +25,7 @@ const thinkfulTube = (function() {
   };
 
   const decorateResponse = function(response) {
-    console.log(response);
+    // console.log(response);
     store.nextPageToken = response.nextPageToken || '';
     if (store.nextPageToken !== ''){
       $('.Next').removeClass('hidden');
@@ -51,11 +51,10 @@ const thinkfulTube = (function() {
     store.addVideosToStore(itemsArray);
     thinkfulTube.render();
   };
-//<img src="${video.thumbnail}" /> this was in line 56..
+
   const generateVideoItemHtml = function(video) {
     return `<li class="col-4" data-video-id="${video.id}">
           <div class="player"></div>
-          
           <a target="blank" href="${video.link}"><h3>Video Title: ${video.title}</h3></a>
           <a target="blank" href="https://www.youtube.com/channel/${video.channelId}">Channel Title: ${video.channelTitle}</a>
           </li>
@@ -81,11 +80,9 @@ const thinkfulTube = (function() {
   };
   const handleNextPrev = function(){
     $('.NextPrev').on('click', '.Next', function(event){
-      //here the next button has been clicked.
       fetchNextPage(store.nextPageToken, thinkfulTube.decorateResponse);
     });
     $('.NextPrev').on('click', '.Previous', function(event){
-      //here the previous button has been clicked.
       fetchNextPage(store.prevPageToken, thinkfulTube.decorateResponse);
     });
 
